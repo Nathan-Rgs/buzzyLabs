@@ -1,0 +1,178 @@
+{
+  "design_principles": {
+    "overall_style": "Modern dark SaaS platform with minimalist design and automation focus",
+    "layout_style": "Single column centered layout with clear sections and consistent spacing",
+    "visual_vibe": "Professional, tech-focused, clean with emphasis on automation and efficiency",
+    "use_of_space": "Generous whitespace with focused content blocks, breathing room between sections",
+    "image_style": "Product screenshots, data visualizations, minimal photography with emphasis on UI/dashboard previews",
+    "animation_style": "Subtle fade-ins and hover states, smooth transitions implied on interactive elements"
+  },
+  "colors": {
+    "primary": "#E8DCC8",
+    "primary_variant": "#D4C4A8",
+    "secondary": "#3A4A5C",
+    "secondary_variant": "#2C3744",
+    "background": "#0F1419",
+    "surface": "#1A2128",
+    "accent": "#E8DCC8",
+    "text_primary": "#FFFFFF",
+    "text_secondary": "#A8B2BC",
+    "text_muted": "#6B7580",
+    "border": "#2A3542",
+    "success": "#4CAF50",
+    "warning": "#FFA726",
+    "error": "#EF5350",
+    "info": "#E8DCC8"
+  },
+  "typography": {
+    "font_family_primary": "Inter, -apple-system, system-ui, sans-serif",
+    "font_family_secondary": "Inter, -apple-system, system-ui, sans-serif",
+    "heading": {
+      "h1": {
+        "size": "56px",
+        "weight": "600",
+        "line_height": "1.1",
+        "letter_spacing": "-0.02em"
+      },
+      "h2": {
+        "size": "40px",
+        "weight": "600",
+        "line_height": "1.2",
+        "letter_spacing": "-0.01em"
+      },
+      "h3": {
+        "size": "28px",
+        "weight": "600",
+        "line_height": "1.3",
+        "letter_spacing": "0"
+      }
+    },
+    "body": {
+      "regular": {
+        "size": "16px",
+        "weight": "400",
+        "line_height": "1.6",
+        "letter_spacing": "0"
+      },
+      "small": {
+        "size": "14px",
+        "weight": "400",
+        "line_height": "1.5",
+        "letter_spacing": "0"
+      },
+      "label": {
+        "size": "12px",
+        "weight": "500",
+        "line_height": "1.4",
+        "letter_spacing": "0.03em"
+      }
+    }
+  },
+  "borders_and_radius": {
+    "card_radius": "12px",
+    "button_radius": "8px",
+    "input_radius": "6px",
+    "chip_radius": "16px",
+    "border_width_thin": "1px",
+    "border_width_thick": "2px"
+  },
+  "shadows": {
+    "card": "0 4px 16px rgba(0, 0, 0, 0.4)",
+    "elevated": "0 8px 24px rgba(0, 0, 0, 0.5)",
+    "button": "0 2px 8px rgba(232, 220, 200, 0.15)"
+  },
+  "spacing": {
+    "section_padding_vertical": "100px",
+    "section_padding_horizontal": "24px",
+    "card_padding": "24px",
+    "grid_gap": "24px",
+    "button_padding": "12px 24px",
+    "input_padding": "12px 16px"
+  },
+  "components": {
+    "buttons": {
+      "primary": {
+        "background": "#E8DCC8",
+        "text_color": "#0F1419",
+        "border_radius": "8px",
+        "padding": "12px 24px",
+        "font": "14px / 600",
+        "shadow": "0 2px 8px rgba(232, 220, 200, 0.15)"
+      },
+      "secondary": {
+        "background": "transparent",
+        "text_color": "#E8DCC8",
+        "border_radius": "8px",
+        "padding": "12px 24px",
+        "font": "14px / 600",
+        "border": "1px solid #2A3542"
+      }
+    },
+    "inputs": {
+      "default": {
+        "background": "#1A2128",
+        "border": "1px solid #2A3542",
+        "radius": "6px",
+        "text_color": "#FFFFFF",
+        "placeholder_color": "#6B7580"
+      }
+    },
+    "cards": {
+      "default": {
+        "background": "#1A2128",
+        "radius": "12px",
+        "shadow": "0 4px 16px rgba(0, 0, 0, 0.4)",
+        "border": "1px solid #2A3542",
+        "padding": "24px"
+      }
+    },
+    "tags_or_chips": {
+      "default": {
+        "background": "#2A3542",
+        "text_color": "#A8B2BC",
+        "radius": "16px",
+        "border": "none"
+      }
+    }
+  },
+  "sections_layout": {
+    "hero": {
+      "layout": "Centered content with large heading, subtitle, CTA buttons horizontally aligned, trust badges below",
+      "alignment": "Center-aligned text with centered call-to-action group",
+      "typography_usage": "Large bold heading (56px) with medium weight subtitle below",
+      "image_usage": "Small icon/cursor element as decoration, minimal visual distractions",
+      "call_to_action_style": "Primary cream button paired with secondary outlined button, both with icons"
+    },
+    "features": {
+      "layout": "Grid layout (2-3 columns) with icon-based feature cards, each with icon, title and description",
+      "cards_style": "Dark cards with subtle borders, minimal shadows, left-aligned content",
+      "icons_style": "Simple line/outline icons in cream color, consistent size and style"
+    },
+    "social_proof": {
+      "layout": "Centered section with statistics or testimonials displayed prominently",
+      "testimonials_style": "Minimal quote-based layout with emphasis on numbers and percentages",
+      "logos_style": ""
+    },
+    "pricing": {
+      "layout": "3-column card layout with clear tier differentiation (left to right: basic, standard, custom)",
+      "cards_style": "Dark bordered cards with pricing prominently displayed at top, feature lists below",
+      "highlighted_plan_style": "Center card with subtle highlight or border emphasis"
+    },
+    "cta_final": {
+      "layout": "Centered section with headline and primary CTA button",
+      "background_style": "Dark background consistent with overall theme, possible subtle gradient",
+      "button_style": "Large primary cream button with high contrast"
+    },
+    "footer": {
+      "layout": "Multi-column layout with logo on left, navigation links in center columns",
+      "columns_structure": "4-5 columns: logo/brand, product links, resources, company info, social",
+      "typography_usage": "Small text (14px) with muted colors, clear hierarchy between headers and links"
+    }
+  },
+  "illustrations_and_images": {
+    "overall_style": "Minimal illustrations, focus on product screenshots and data visualizations",
+    "shapes_and_decoration": "Subtle geometric elements, clean lines, bee logo as brand anchor with rounded organic shape",
+    "icons_style": "Outline/line icons in cream accent color, consistent stroke width, simple and functional",
+    "photo_style": "Professional product photography when used, high contrast against dark background"
+  }
+}
