@@ -1,9 +1,23 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogTrigger,
+  DialogDescription
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "sonner";
+import emailjs from '@emailjs/browser';
+import Particle from "@/components/Particle";
 import { 
   ArrowRight, 
   CheckCircle2, 
@@ -23,11 +37,22 @@ import {
   Sparkles,
   Rocket,
   Brain,
-  Gem
+  Gem,
+  BarChart3,
+  Layers,
+  Settings2,
+  Lock,
+  Workflow,
+  Loader2
 } from "lucide-react";
 
 import logoImage from "@assets/Buzzy_Labs_Bee_Blue_No-Frame_1767456786441.jpeg";
-import heroBg from "@assets/generated_images/abstract_dark_tech_background_with_nodes.png";
+
+// CONFIGURAÇÃO EMAILJS (Substitua pelos seus dados do emailjs.com)
+const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";
+const EMAILJS_TEMPLATE_ID_DIAGNOSTICO = "YOUR_DIAGNOSTICO_TEMPLATE_ID";
+const EMAILJS_TEMPLATE_ID_NEWSLETTER = "YOUR_NEWSLETTER_TEMPLATE_ID";
+const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
@@ -52,16 +77,126 @@ const stepAnimation = {
     transition: {
       delay: i * 0.2,
       duration: 0.5,
-      ease: "easeOut"
+      ease: "easeOut" as any
     }
   })
 };
 
+function DiagnosticDialog({ children }: { children: React.ReactNode }) {
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+
+    // Se as chaves estiverem configuradas, envia via EmailJS
+    if (EMAILJS_SERVICE_ID !== "YOUR_SERVICE_ID" && formRef.current) {
+      try {
+        await emailjs.sendForm(
+          EMAILJS_SERVICE_ID,
+          EMAILJS_TEMPLATE_ID_DIAGNOSTICO,
+          formRef.current,
+          EMAILJS_PUBLIC_KEY
+        );
+        toast.success("Diagnóstico solicitado com sucesso! Entraremos em contato em breve.");
+        setOpen(false);
+      } catch (err) {
+        toast.error("Erro ao enviar e-mail. Verifique a configuração do EmailJS.");
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      // Simulação para desenvolvimento
+      console.log("Simulando envio de diagnóstico (Chaves EmailJS não configuradas)");
+      setTimeout(() => {
+        toast.success("MOCK: Diagnóstico solicitado com sucesso!");
+        setLoading(false);
+        setOpen(false);
+      }, 1500);
+    }
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        {children}
+      </DialogTrigger>
+      <DialogContent className="bg-card border-white/10 text-white sm:max-w-[500px]">
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-bold">Agendar Diagnóstico Executivo</DialogTitle>
+          <DialogDescription className="text-white/40">
+            Preencha os dados abaixo e um de nossos especialistas entrará em contato para uma análise personalizada.
+          </DialogDescription>
+        </DialogHeader>
+        <form ref={formRef} onSubmit={handleSubmit} className="space-y-6 pt-4">
+          <div className="grid gap-2">
+            <Label htmlFor="name">Nome Completo</Label>
+            <Input id="name" name="from_name" placeholder="Ex: João Silva" required className="bg-white/5 border-white/10" />
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-2">
+              <Label htmlFor="email">E-mail Corporativo</Label>
+              <Input id="email" name="reply_to" type="email" placeholder="joao@empresa.com" required className="bg-white/5 border-white/10" />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="phone">Telefone / WhatsApp</Label>
+              <Input id="phone" name="phone" placeholder="(11) 99999-9999" required className="bg-white/5 border-white/10" />
+            </div>
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="company">Empresa</Label>
+            <Input id="company" name="company" placeholder="Nome da sua empresa" required className="bg-white/5 border-white/10" />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="message">Principal Gargalo Operacional (Opcional)</Label>
+            <Textarea id="message" name="message" placeholder="Conte-nos brevemente sobre seu desafio atual..." className="bg-white/5 border-white/10 min-h-[100px]" />
+          </div>
+          <Button type="submit" disabled={loading} className="w-full bg-primary hover:bg-primary/90 text-white font-bold h-12">
+            {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Solicitar Diagnóstico"}
+          </Button>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export default function Home() {
-  const [chatMessage, setChatMessage] = useState("");
-  const [chatHistory, setChatHistory] = useState<{role: 'user' | 'bot', text: string}[]>([]);
-  const [isTyping, setIsTyping] = useState(false);
   const [activeFaq, setActiveFaq] = useState(0);
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterLoading, setNewsletterLoading] = useState(false);
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newsletterEmail) return;
+    setNewsletterLoading(true);
+
+    if (EMAILJS_SERVICE_ID !== "YOUR_SERVICE_ID") {
+      try {
+        await emailjs.send(
+          EMAILJS_SERVICE_ID,
+          EMAILJS_TEMPLATE_ID_NEWSLETTER,
+          { email: newsletterEmail },
+          EMAILJS_PUBLIC_KEY
+        );
+        toast.success("Inscrição realizada com sucesso!");
+        setNewsletterEmail("");
+      } catch (err) {
+        toast.error("Erro ao realizar inscrição.");
+      } finally {
+        setNewsletterLoading(false);
+      }
+    } else {
+      // Simulação para desenvolvimento
+      console.log("Simulando inscrição de newsletter (Chaves EmailJS não configuradas)");
+      setTimeout(() => {
+        toast.success("MOCK: Inscrição na newsletter realizada!");
+        setNewsletterEmail("");
+        setNewsletterLoading(false);
+      }, 1000);
+    }
+  };
 
   const faqs = [
     { q: "A tecnologia vai substituir minha equipe atual?", a: "Não, ela vai potencializar seu time. A automação e a IA assumem o trabalho repetitivo, permitindo que seus funcionários foquem em vendas, relacionamento e estratégia." },
@@ -70,34 +205,6 @@ export default function Home() {
     { q: "Preciso trocar os softwares que já uso?", a: "Raramente. Nossa especialidade é fazer com que seus sistemas atuais conversem entre si de forma inteligente." },
     { q: "Qual é o retorno financeiro (ROI) esperado?", a: "O retorno é direto: redução de custos operacionais e aumento de receita pela agilidade no atendimento. Nossos clientes costumam recuperar o investimento nos primeiros meses." }
   ];
-
-  const handleSendMessage = () => {
-    if (!chatMessage.trim()) return;
-
-    const userText = chatMessage;
-    setChatHistory(prev => [...prev, { role: 'user', text: userText }]);
-    setChatMessage("");
-    setIsTyping(true);
-
-    // AI Response logic
-    setTimeout(() => {
-      let botResponse = "";
-      const msg = userText.toLowerCase();
-
-      if (msg.includes("venda") || msg.includes("crm") || msg.includes("lead")) {
-        botResponse = "Para seu setor de vendas, a Buzzy Labs pode implementar um fluxo de qualificação automática de leads via IA e WhatsApp, integrando diretamente com seu CRM para que seu time foque apenas em fechar negócios já aquecidos.";
-      } else if (msg.includes("financeiro") || msg.includes("nota") || msg.includes("pagamento")) {
-        botResponse = "No financeiro, conseguimos automatizar a emissão de notas fiscais, conciliação bancária e cobrança ativa de inadimplentes, eliminando erros manuais e garantindo fluxo de caixa estável.";
-      } else if (msg.includes("rh") || msg.includes("contrato") || msg.includes("processo")) {
-        botResponse = "Podemos otimizar seu RH com geração automática de contratos, onboarding digital e dashboards de performance que consolidam dados de múltiplas ferramentas em um só lugar.";
-      } else {
-        botResponse = "Entendi! Esse é exatamente o tipo de desafio que resolvemos com nossa Engenharia de Negócios. Na Buzzy Labs, desenhamos uma arquitetura sob medida para esse gargalo, unindo IA e automação para garantir que a operação nunca pare. Vamos agendar um diagnóstico executivo para eu te mostrar como?";
-      }
-
-      setChatHistory(prev => [...prev, { role: 'bot', text: botResponse }]);
-      setIsTyping(false);
-    }, 1500);
-  };
 
   return (
     <div className="min-h-screen bg-buzzy-gradient text-foreground font-sans overflow-x-hidden">
@@ -119,21 +226,22 @@ export default function Home() {
           
           <nav className="hidden md:flex items-center gap-10 text-sm font-semibold text-white/70">
             <a href="#solutions" className="hover:text-primary transition-colors" data-testid="link-nav-solutions">Soluções</a>
-            <a href="#process" className="hover:text-primary transition-colors" data-testid="link-nav-process">O Processo</a>
+            <a href="#features" className="hover:text-primary transition-colors" data-testid="link-nav-features">Recursos</a>
+            <a href="#pricing" className="hover:text-primary transition-colors" data-testid="link-nav-pricing">Preços</a>
             <a href="#faq" className="hover:text-primary transition-colors" data-testid="link-nav-faq">FAQ</a>
           </nav>
 
-          <Button className="font-bold px-6 bg-primary hover:bg-primary/90 text-[#ffffff]" size="default" data-testid="button-header-cta">
-            Agendar Diagnóstico Executivo
-          </Button>
+          <DiagnosticDialog>
+            <Button className="font-bold px-6 bg-primary hover:bg-primary/90 text-[#ffffff]" size="default" data-testid="button-header-cta">
+              Agendar Diagnóstico Executivo
+            </Button>
+          </DiagnosticDialog>
         </div>
       </header>
       {/* Hero Section */}
-      <section className="relative pt-40 pb-24 lg:pt-56 lg:pb-40 overflow-hidden">
-        <div className="absolute inset-0 z-0 opacity-30">
-          <img src={heroBg} alt="Background" className="w-full h-full object-cover mix-blend-overlay" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-transparent to-background" />
-        </div>
+      <section className="relative pt-40 pb-24 lg:pt-56 lg:pb-40 overflow-hidden bg-black">
+        <Particle />
+        <div className="absolute inset-0 z-1 bg-gradient-to-b from-background/20 via-transparent to-background" />
 
         <div className="container relative z-10 mx-auto px-4 text-center">
           <motion.div
@@ -155,10 +263,12 @@ export default function Home() {
             </motion.p>
             
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <Button size="lg" className="h-16 px-10 text-lg w-full sm:w-auto font-bold shadow-2xl shadow-primary/10 text-[#ffffff]" data-testid="button-hero-cta">
-                Agendar Diagnóstico Executivo
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+              <DiagnosticDialog>
+                <Button size="lg" className="h-16 px-10 text-lg w-full sm:w-auto font-bold shadow-2xl shadow-primary/10 text-[#ffffff]" data-testid="button-hero-cta">
+                  Agendar Diagnóstico Executivo
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </DiagnosticDialog>
             </motion.div>
             
             <motion.p variants={fadeInUp} className="mt-4 text-xs text-muted-foreground" data-testid="text-hero-disclaimer">
@@ -266,34 +376,72 @@ export default function Home() {
             
             <motion.div variants={fadeInUp} className="lg:w-1/2 relative">
               <div className="absolute -inset-10 bg-primary/20 blur-[120px] rounded-full opacity-50" />
-              <div className="relative bg-white/[0.02] border border-white/10 rounded-3xl p-10 backdrop-blur-3xl shadow-3xl">
-                <div className="flex flex-col gap-10">
-                  <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/5 border-dashed">
-                    <p className="text-center text-sm font-mono text-white/30 mb-4">OPERAÇÃO TRADICIONAL</p>
-                    <div className="grid grid-cols-5 gap-3 opacity-30">
-                      {[...Array(10)].map((_,i) => (
-                        <div key={i} className="h-10 rounded-lg bg-red-500/20 animate-pulse" style={{animationDelay: `${i*0.1}s`}} />
-                      ))}
+              <div className="relative bg-white/[0.02] border border-white/10 rounded-3xl p-8 md:p-12 backdrop-blur-3xl shadow-3xl">
+                <div className="flex flex-col gap-12">
+                  {/* Traditional Operation Side */}
+                  <div className="relative p-8 rounded-2xl bg-white/[0.02] border border-red-500/10 border-dashed group overflow-hidden">
+                    <div className="absolute top-0 right-0 p-3">
+                       <Badge variant="outline" className="text-[10px] border-red-500/20 text-red-500/50 uppercase tracking-tighter">Ineficiente</Badge>
                     </div>
+                    <p className="text-sm font-mono text-white/20 mb-6 uppercase tracking-widest">Operação Tradicional</p>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 opacity-40 grayscale group-hover:grayscale-0 transition-all duration-700">
+                      <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                        <FileText className="h-4 w-4 text-red-400" />
+                        <span className="text-xs text-white/40">Planilhas Manuais</span>
+                      </div>
+                      <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                        <Clock className="h-4 w-4 text-red-400" />
+                        <span className="text-xs text-white/40">Gargalos de Espera</span>
+                      </div>
+                      <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                        <Users className="h-4 w-4 text-red-400" />
+                        <span className="text-xs text-white/40">Dependência Humana</span>
+                      </div>
+                      <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                        <Database className="h-4 w-4 text-red-400" />
+                        <span className="text-xs text-white/40">Dados Desconexos</span>
+                      </div>
+                    </div>
+                    
+                    {/* Visual noise/chaos elements */}
+                    <div className="absolute -bottom-2 -right-2 h-20 w-20 bg-red-500/5 blur-2xl rounded-full" />
                   </div>
                   
+                  {/* Transition Arrow */}
                   <div className="flex justify-center relative">
-                    <ArrowRight className="h-8 w-8 text-primary" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                       <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+                    </div>
+                    <div className="relative h-12 w-12 rounded-full bg-primary flex items-center justify-center shadow-[0_0_30px_rgba(var(--primary),0.5)] z-10 animate-bounce">
+                      <ArrowRight className="h-6 w-6 text-white" />
+                    </div>
                   </div>
 
-                  <div className="p-6 rounded-2xl bg-primary/10 border border-primary/20">
-                    <p className="text-center text-sm font-mono text-primary/60 mb-4">ECOSSISTEMA BUZZY</p>
-                    <div className="flex gap-3">
-                       <div className="h-20 flex-1 rounded-xl bg-background/50 border border-white/5 flex items-center justify-center">
-                          <Database className="h-8 w-8 text-primary" />
+                  {/* Buzzy Ecosystem Side */}
+                  <div className="relative p-8 rounded-2xl bg-primary/5 border border-primary/30 shadow-[0_0_50px_rgba(var(--primary),0.1)] group">
+                    <div className="absolute top-0 right-0 p-3">
+                       <Badge variant="outline" className="text-[10px] border-primary/40 text-primary uppercase tracking-tighter">Otimizado</Badge>
+                    </div>
+                    <p className="text-sm font-mono text-primary/80 mb-6 uppercase tracking-widest font-bold">Ecossistema Buzzy</p>
+                    
+                    <div className="flex flex-col sm:flex-row gap-6">
+                       <div className="flex-1 p-5 rounded-xl bg-background/60 border border-primary/20 flex flex-col items-center justify-center text-center group-hover:border-primary/50 transition-colors">
+                          <Zap className="h-8 w-8 text-primary mb-3 animate-pulse" />
+                          <span className="text-[10px] font-bold text-white/60 uppercase">Fluxos Autônomos</span>
                        </div>
-                       <div className="h-20 flex-1 rounded-xl bg-background/50 border border-white/5 flex items-center justify-center">
-                          <Network className="h-8 w-8 text-primary" />
+                       <div className="flex-1 p-5 rounded-xl bg-background/60 border border-primary/20 flex flex-col items-center justify-center text-center group-hover:border-primary/50 transition-colors">
+                          <Network className="h-8 w-8 text-primary mb-3" />
+                          <span className="text-[10px] font-bold text-white/60 uppercase">Integração Total</span>
                        </div>
-                       <div className="h-20 flex-1 rounded-xl bg-background/50 border border-white/5 flex items-center justify-center">
-                          <LayoutDashboard className="h-8 w-8 text-primary" />
+                       <div className="flex-1 p-5 rounded-xl bg-background/60 border border-primary/20 flex flex-col items-center justify-center text-center group-hover:border-primary/50 transition-colors">
+                          <LayoutDashboard className="h-8 w-8 text-primary mb-3" />
+                          <span className="text-[10px] font-bold text-white/60 uppercase">Gestão em Tempo Real</span>
                        </div>
                     </div>
+                    
+                    {/* Glow effect */}
+                    <div className="absolute -inset-1 bg-primary/10 blur-xl rounded-2xl -z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                 </div>
               </div>
@@ -341,109 +489,179 @@ export default function Home() {
           </div>
         </div>
       </section>
-      {/* AI Agent Section */}
-      <section className="py-32">
-        <div className="container mx-auto px-4 max-w-4xl">
+      {/* Feature Highlights Section */}
+      <section id="features" className="py-32 bg-black/40">
+        <div className="container mx-auto px-4">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeInUp}
+            className="text-center mb-20"
           >
-            <div className="text-center mb-16">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest mb-4">
-                <Sparkles className="h-3 w-3" />
-                Diagnóstico Instantâneo
-              </div>
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">Como a Buzzy pode te ajudar?</h2>
-              <p className="text-xl text-white/40">Descreva seu problema ou sua empresa para nosso Consultor IA.</p>
-            </div>
-
-            <div className="bg-card border border-white/5 rounded-[2rem] overflow-hidden shadow-2xl flex flex-col md:flex-row h-[600px]">
-              {/* Sidebar Info */}
-              <div className="md:w-1/3 bg-white/[0.02] p-8 border-r border-white/5 hidden md:block">
-                <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-                  <Bot className="h-5 w-5 text-primary" />
-                  Buzzy Assistant
-                </h3>
-                <ul className="space-y-6">
-                  <li className="text-sm text-white/40 flex gap-3">
-                    <div className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 text-primary text-[10px] font-bold">1</div>
-                    Explique seu gargalo operacional ou setor.
-                  </li>
-                  <li className="text-sm text-white/40 flex gap-3">
-                    <div className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 text-primary text-[10px] font-bold">2</div>
-                    Receba sugestões de arquitetura de automação.
-                  </li>
-                  <li className="text-sm text-white/40 flex gap-3">
-                    <div className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 text-primary text-[10px] font-bold">3</div>
-                    Descubra como a IA pode potencializar seu time.
-                  </li>
-                </ul>
-              </div>
-
-              {/* Chat Interface */}
-              <div className="flex-1 flex flex-col bg-white/[0.01]">
-                <div className="flex-1 p-6 overflow-y-auto space-y-4">
-                  {chatHistory.length === 0 && (
-                    <div className="h-full flex flex-col items-center justify-center text-center p-8 opacity-40">
-                      <Bot className="h-12 w-12 mb-4" />
-                      <p className="text-sm">Olá! Sou o assistente da Buzzy Labs. <br/> Qual é o maior gargalo da sua operação hoje?</p>
-                    </div>
-                  )}
-                  <AnimatePresence>
-                    {chatHistory.map((msg, i) => (
-                      <motion.div
-                        key={i}
-                        initial={{ opacity: 0, x: msg.role === 'user' ? 20 : -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                      >
-                        <div className={`max-w-[80%] p-4 rounded-2xl text-sm leading-relaxed ${
-                          msg.role === 'user' 
-                          ? 'bg-primary text-background font-medium' 
-                          : 'bg-white/[0.05] border border-white/5 text-white/80'
-                        }`}>
-                          {msg.text}
-                        </div>
-                      </motion.div>
-                    ))}
-                  </AnimatePresence>
-                  {isTyping && (
-                    <div className="flex justify-start">
-                      <div className="bg-white/[0.05] p-4 rounded-2xl flex gap-1 items-center">
-                        <div className="w-1 h-1 bg-white/40 rounded-full animate-bounce" />
-                        <div className="w-1 h-1 bg-white/40 rounded-full animate-bounce [animation-delay:0.2s]" />
-                        <div className="w-1 h-1 bg-white/40 rounded-full animate-bounce [animation-delay:0.4s]" />
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                <div className="p-6 border-t border-white/5 bg-background/50">
-                  <div className="relative">
-                    <Input 
-                      placeholder="Descreva seu problema ou empresa..."
-                      className="h-14 bg-white/[0.05] border-white/10 pr-16 focus-visible:ring-primary/40 rounded-xl"
-                      value={chatMessage}
-                      onChange={(e) => setChatMessage(e.target.value)}
-                      onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                    />
-                    <Button 
-                      size="icon" 
-                      className="absolute right-2 top-2 h-10 w-10 bg-primary hover:bg-primary/90"
-                      onClick={handleSendMessage}
-                      disabled={isTyping}
-                    >
-                      <Send className="h-4 w-4 text-background" />
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">Recursos de Alta Performance</h2>
+            <p className="text-xl text-white/40 max-w-2xl mx-auto">Tecnologia de ponta integrada para transformar sua operação em uma máquina de escala.</p>
           </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                title: "Automação de Fluxo",
+                desc: "Integração total entre CRMs, ERPs e ferramentas de comunicação para eliminar o trabalho manual.",
+                icon: <Workflow className="h-6 w-6 text-primary" />,
+                tag: "Eficiência"
+              },
+              {
+                title: "IA Preditiva",
+                desc: "Algoritmos que analisam dados em tempo real para prever gargalos e sugerir otimizações automáticas.",
+                icon: <Brain className="h-6 w-6 text-primary" />,
+                tag: "Inteligência"
+              },
+              {
+                title: "Dashboards em Tempo Real",
+                desc: "Visibilidade completa de todos os KPIs operacionais em uma única interface intuitiva.",
+                icon: <BarChart3 className="h-6 w-6 text-primary" />,
+                tag: "Visibilidade"
+              },
+              {
+                title: "Infraestrutura Escalável",
+                desc: "Arquitetura em nuvem que cresce conforme a demanda do seu negócio, sem perda de performance.",
+                icon: <Layers className="h-6 w-6 text-primary" />,
+                tag: "Escalabilidade"
+              },
+              {
+                title: "Segurança de Dados",
+                desc: "Protocolos de criptografia e conformidade LGPD para garantir a integridade das suas informações.",
+                icon: <Lock className="h-6 w-6 text-primary" />,
+                tag: "Segurança"
+              },
+              {
+                title: "Customização Total",
+                desc: "Soluções desenhadas especificamente para o seu modelo de negócio e necessidades únicas.",
+                icon: <Settings2 className="h-6 w-6 text-primary" />,
+                tag: "Flexibilidade"
+              }
+            ].map((feature, i) => (
+              <motion.div
+                key={i}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeInUp}
+                className="group p-8 rounded-3xl bg-white/[0.02] border border-white/5 hover:border-primary/30 transition-all duration-500"
+              >
+                <div className="flex justify-between items-start mb-6">
+                  <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    {feature.icon}
+                  </div>
+                  <Badge variant="outline" className="border-primary/20 text-primary/70">{feature.tag}</Badge>
+                </div>
+                <h3 className="text-2xl font-bold mb-4">{feature.title}</h3>
+                <p className="text-white/40 leading-relaxed">{feature.desc}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
+
+      {/* Pricing Preview Section */}
+      <section id="pricing" className="py-32">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="text-center mb-20"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">Investimento Estratégico</h2>
+            <p className="text-xl text-white/40">Planos flexíveis para diferentes estágios de crescimento.</p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {[
+              {
+                name: "Standard",
+                price: "Sob Consulta",
+                desc: "Ideal para operações que estão começando a automatizar processos críticos.",
+                features: ["Mapeamento de 2 Processos", "Integração de 3 Ferramentas", "Dashboard Básico", "Suporte por E-mail"],
+                cta: "Começar Agora",
+                highlight: false
+              },
+              {
+                name: "Pro",
+                price: "Sob Consulta",
+                desc: "Para empresas em escala que precisam de inteligência e automação robusta.",
+                features: ["Mapeamento de 5 Processos", "Integração Ilimitada", "IA de Supervisão", "Dashboard Avançado", "Suporte Prioritário"],
+                cta: "Falar com Especialista",
+                highlight: true
+              },
+              {
+                name: "Enterprise",
+                price: "Customizado",
+                desc: "Ecossistema completo sob medida para grandes operações e corporações.",
+                features: ["Engenharia Dedicada", "SLA Garantido", "Infraestrutura Própria", "Consultoria Mensal", "Suporte 24/7"],
+                cta: "Agendar Reunião",
+                highlight: false
+              }
+            ].map((plan, i) => (
+              <motion.div
+                key={i}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeInUp}
+                className={`p-10 rounded-[2.5rem] flex flex-col h-full border transition-all duration-500 ${
+                  plan.highlight 
+                  ? 'bg-primary/5 border-primary/40 shadow-2xl shadow-primary/10 scale-105 z-10' 
+                  : 'bg-white/[0.02] border-white/5'
+                }`}
+              >
+                <div className="mb-8">
+                  <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
+                  <p className="text-white/40 text-sm h-12">{plan.desc}</p>
+                </div>
+                <div className="mb-10">
+                  <span className="text-4xl font-bold">{plan.price}</span>
+                </div>
+                <ul className="space-y-4 mb-12 flex-1">
+                  {plan.features.map((feat, j) => (
+                    <li key={j} className="flex items-center gap-3 text-white/60">
+                      <CheckCircle2 className="h-5 w-5 text-primary flex-shrink-0" />
+                      <span>{feat}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Button 
+                  className={`w-full h-14 font-bold text-lg rounded-xl ${
+                    plan.highlight 
+                    ? 'bg-primary hover:bg-primary/90 text-white' 
+                    : 'bg-white/5 hover:bg-white/10 text-white'
+                  }`}
+                >
+                  {plan.cta}
+                </Button>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+      {/* Trust / Social Proof Section */}
+      <section className="py-24 bg-white/[0.01] border-y border-white/5">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-12 opacity-50 grayscale hover:grayscale-0 transition-all duration-700">
+            <div className="text-xl font-bold tracking-tighter text-white/40 uppercase">Trusted by Industry Leaders</div>
+            <div className="flex flex-wrap justify-center gap-12 md:gap-20">
+              {/* Placeholders for partner/client logos */}
+              <div className="text-2xl font-black italic tracking-tighter">TECHFLOW</div>
+              <div className="text-2xl font-black italic tracking-tighter">NEXUS AI</div>
+              <div className="text-2xl font-black italic tracking-tighter">CORE SYSTEMS</div>
+              <div className="text-2xl font-black italic tracking-tighter">VELOCITY</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ */}
       <section id="faq" className="py-32 bg-white/[0.02]">
         <div className="container mx-auto px-4 max-w-6xl">
@@ -538,13 +756,15 @@ export default function Home() {
              </p>
 
              <div className="flex flex-col sm:flex-row items-center justify-center gap-6 relative z-20">
-               <Button 
-                 size="lg" 
-                 className="h-20 px-12 text-xl font-bold rounded-2xl bg-primary hover:bg-primary/90 shadow-[0_0_40px_rgba(5,56,69,0.3)] transition-all hover:scale-105 active:scale-95 group text-[#ffffff]"
-               >
-                 Agendar Consultoria de Diagnóstico
-                 <ArrowRight className="ml-2 h-6 w-6 group-hover:translate-x-1 transition-transform" />
-               </Button>
+               <DiagnosticDialog>
+                 <Button 
+                   size="lg" 
+                   className="h-20 px-12 text-xl font-bold rounded-2xl bg-primary hover:bg-primary/90 shadow-[0_0_40px_rgba(5,56,69,0.3)] transition-all hover:scale-105 active:scale-95 group text-[#ffffff]"
+                 >
+                   Agendar Consultoria de Diagnóstico
+                   <ArrowRight className="ml-2 h-6 w-6 group-hover:translate-x-1 transition-transform" />
+                 </Button>
+               </DiagnosticDialog>
              </div>
           </motion.div>
         </div>
@@ -571,15 +791,23 @@ export default function Home() {
             <div className="bg-white/[0.03] border border-white/5 rounded-3xl p-10 backdrop-blur-sm text-left">
               <h3 className="text-xl font-bold mb-4">Newsletter Estratégica</h3>
               <p className="text-white/40 mb-8 text-sm">Receba insights sobre automação e IA diretamente no seu e-mail corporativo.</p>
-              <div className="flex flex-col sm:flex-row gap-3">
+              <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-3">
                 <Input 
                   placeholder="Seu melhor e-mail" 
+                  type="email"
+                  required
+                  value={newsletterEmail}
+                  onChange={(e) => setNewsletterEmail(e.target.value)}
                   className="h-12 bg-white/5 border-white/10 rounded-xl focus-visible:ring-primary/40"
                 />
-                <Button className="h-12 px-8 bg-white text-black hover:bg-white/90 font-bold rounded-xl whitespace-nowrap">
-                  Inscrever-se
+                <Button 
+                  type="submit" 
+                  disabled={newsletterLoading}
+                  className="h-12 px-8 bg-white text-black hover:bg-white/90 font-bold rounded-xl whitespace-nowrap"
+                >
+                  {newsletterLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Inscrever-se"}
                 </Button>
-              </div>
+              </form>
             </div>
           </div>
 
