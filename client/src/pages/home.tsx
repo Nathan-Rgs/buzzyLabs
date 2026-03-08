@@ -123,38 +123,38 @@ function DiagnosticDialog({ children }: { children: React.ReactNode }) {
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <DialogContent className="bg-card border-white/10 text-white sm:max-w-[500px]">
+      <DialogContent className="bg-card border-white/10 text-white sm:max-w-[500px] backdrop-blur-2xl">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold">Agendar Diagnóstico Executivo</DialogTitle>
-          <DialogDescription className="text-white/40">
+          <DialogTitle className="text-2xl font-bold tracking-tight">Agendar Diagnóstico Executivo</DialogTitle>
+          <DialogDescription className="text-white/60 font-light leading-relaxed">
             Preencha os dados abaixo e um de nossos especialistas entrará em contato para uma análise personalizada.
           </DialogDescription>
         </DialogHeader>
         <form ref={formRef} onSubmit={handleSubmit} className="space-y-6 pt-4">
           <div className="grid gap-2">
-            <Label htmlFor="name">Nome Completo</Label>
-            <Input id="name" name="from_name" placeholder="Ex: João Silva" required className="bg-white/5 border-white/10" />
+            <Label htmlFor="name" className="text-sm font-semibold">Nome Completo</Label>
+            <Input id="name" name="from_name" placeholder="Ex: João Silva" required className="bg-white/10 border-white/20 h-12 focus-visible:ring-primary/40" />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="email">E-mail Corporativo</Label>
-              <Input id="email" name="reply_to" type="email" placeholder="joao@empresa.com" required className="bg-white/5 border-white/10" />
+              <Label htmlFor="email" className="text-sm font-semibold">E-mail Corporativo</Label>
+              <Input id="email" name="reply_to" type="email" placeholder="joao@empresa.com" required className="bg-white/10 border-white/20 h-12 focus-visible:ring-primary/40" />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="phone">Telefone / WhatsApp</Label>
-              <Input id="phone" name="phone" placeholder="(11) 99999-9999" required className="bg-white/5 border-white/10" />
+              <Label htmlFor="phone" className="text-sm font-semibold">Telefone / WhatsApp</Label>
+              <Input id="phone" name="phone" placeholder="(11) 99999-9999" required className="bg-white/10 border-white/20 h-12 focus-visible:ring-primary/40" />
             </div>
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="company">Empresa</Label>
-            <Input id="company" name="company" placeholder="Nome da sua empresa" required className="bg-white/5 border-white/10" />
+            <Label htmlFor="company" className="text-sm font-semibold">Empresa</Label>
+            <Input id="company" name="company" placeholder="Nome da sua empresa" required className="bg-white/10 border-white/20 h-12 focus-visible:ring-primary/40" />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="message">Principal Gargalo Operacional (Opcional)</Label>
-            <Textarea id="message" name="message" placeholder="Conte-nos brevemente sobre seu desafio atual..." className="bg-white/5 border-white/10 min-h-[100px]" />
+            <Label htmlFor="message" className="text-sm font-semibold">Principal Gargalo Operacional (Opcional)</Label>
+            <Textarea id="message" name="message" placeholder="Conte-nos brevemente sobre seu desafio atual..." className="bg-white/10 border-white/20 min-h-[100px] focus-visible:ring-primary/40" />
           </div>
-          <Button type="submit" disabled={loading} className="w-full bg-primary hover:bg-primary/90 text-white font-bold h-12">
-            {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Solicitar Diagnóstico"}
+          <Button type="submit" disabled={loading} className="w-full bg-primary hover:bg-primary/90 text-white font-black h-14 text-lg shadow-xl shadow-primary/20 transition-transform active:scale-95">
+            {loading ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : "Solicitar Diagnóstico"}
           </Button>
         </form>
       </DialogContent>
@@ -224,7 +224,7 @@ export default function Home() {
             <span className="font-bold text-xl tracking-tight" data-testid="text-brand-name">Buzzy Labs</span>
           </div>
           
-          <nav className="hidden md:flex items-center gap-10 text-sm font-semibold text-white/70">
+          <nav className="hidden md:flex items-center gap-10 text-sm font-bold text-white/80 tracking-tight">
             <a href="#solutions" className="hover:text-primary transition-colors" data-testid="link-nav-solutions">Soluções</a>
             <a href="#features" className="hover:text-primary transition-colors" data-testid="link-nav-features">Recursos</a>
             <a href="#pricing" className="hover:text-primary transition-colors" data-testid="link-nav-pricing">Preços</a>
@@ -250,15 +250,15 @@ export default function Home() {
             variants={staggerContainer}
             className="max-w-4xl mx-auto"
           >
-            <motion.p variants={fadeInUp} className="inline-block bg-white/5 border border-white/10 backdrop-blur-sm px-4 py-1 rounded-full text-xs font-bold tracking-widest uppercase mb-8 text-[#8e99ad]" data-testid="text-hero-pretitle">
+            <motion.p variants={fadeInUp} className="inline-block bg-white/10 border border-white/20 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase mb-8 text-primary/90" data-testid="text-hero-pretitle">
               CONSULTORIA DE INTELIGÊNCIA OPERACIONAL
             </motion.p>
             
-            <motion.h1 variants={fadeInUp} className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[1.1] mb-8 tracking-tighter text-glow ml-[10px] mr-[10px]" data-testid="text-hero-title">
+            <motion.h1 variants={fadeInUp} className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[1.1] mb-8 tracking-tighter text-glow" data-testid="text-hero-title">
               Escale sua empresa sem aumentar seus <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary/90 to-primary/60">custos fixos.</span>
             </motion.h1>
             
-            <motion.p variants={fadeInUp} className="text-xl md:text-2xl text-white/60 mb-12 max-w-3xl mx-auto leading-relaxed font-light" data-testid="text-hero-subtitle">
+            <motion.p variants={fadeInUp} className="text-xl md:text-2xl text-white mb-12 max-w-3xl mx-auto leading-relaxed font-normal" data-testid="text-hero-subtitle">
               Criamos ecossistemas digitais inteligentes que permitem à sua operação vender e entregar mais, mantendo a equipe enxuta. Transforme eficiência operacional em margem de lucro real.
             </motion.p>
             
@@ -288,7 +288,7 @@ export default function Home() {
             className="text-center max-w-4xl mx-auto mb-20"
           >
             <motion.h2 variants={fadeInUp} className="text-4xl md:text-5xl font-bold mb-6">A ineficiência operacional é a âncora que prende seu faturamento.</motion.h2>
-            <motion.p variants={fadeInUp} className="text-xl text-white/50 leading-relaxed">Enquanto você depende de processos manuais e memória humana para rodar o básico, seus concorrentes usam tecnologia para serem mais rápidos e baratos</motion.p>
+            <motion.p variants={fadeInUp} className="text-xl text-white/90 leading-relaxed">Enquanto você depende de processos manuais e memória humana para rodar o básico, seus concorrentes usam tecnologia para serem mais rápidos e baratos</motion.p>
           </motion.div>
 
           <motion.div 
@@ -316,14 +316,14 @@ export default function Home() {
               }
             ].map((item, i) => (
               <motion.div key={i} variants={fadeInUp}>
-                <Card className="bg-white/[0.03] border-white/5 hover:border-primary/20 transition-all duration-500 backdrop-blur-sm group h-full" data-testid={`card-pain-point-${i}`}>
+                <Card className="bg-white/[0.07] border-white/20 hover:border-primary/50 transition-all duration-500 backdrop-blur-md group h-full" data-testid={`card-pain-point-${i}`}>
                   <CardHeader>
-                    <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <div className="h-14 w-14 rounded-2xl bg-primary/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg shadow-primary/10">
                       {item.icon}
                     </div>
-                    <CardTitle className="text-2xl">{item.title}</CardTitle>
+                    <CardTitle className="text-2xl font-bold">{item.title}</CardTitle>
                   </CardHeader>
-                  <CardContent className="text-white/50 leading-relaxed text-base">
+                  <CardContent className="text-white/90 leading-relaxed text-base font-normal">
                     {item.desc}
                   </CardContent>
                 </Card>
@@ -340,18 +340,22 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
-            className="flex flex-col lg:flex-row items-center gap-24"
+            className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24 bg-white/[0.04] border border-white/10 rounded-[3rem] p-8 md:p-16 backdrop-blur-xl relative overflow-hidden"
           >
-            <motion.div variants={fadeInUp} className="lg:w-1/2">
-              <div className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-4 py-1 text-sm font-semibold text-primary mb-8">
+            {/* Background Glows inside the card */}
+            <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-primary/10 blur-[100px] rounded-full -z-10" />
+            <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-primary/5 blur-[100px] rounded-full -z-10" />
+
+            <motion.div variants={fadeInUp} className="lg:w-1/2 relative z-10">
+              <div className="inline-flex items-center rounded-full border border-primary/40 bg-primary/20 px-4 py-1.5 text-sm font-bold text-primary mb-8 shadow-lg shadow-primary/10">
                 <Cpu className="mr-2 h-4 w-4" />
                 Engenharia de Negócios
               </div>
-              <h2 className="text-4xl md:text-5xl font-bold mb-8 leading-[1.2]">
+              <h2 className="text-4xl md:text-5xl font-bold mb-8 leading-[1.2] text-white">
                 O alicerce tecnológico que <span className="text-primary">sustenta o seu crescimento.</span>
               </h2>
-              <p className="text-white/60 mb-10 text-xl leading-relaxed">Para crescer de forma saudável, sua empresa precisa de processos escaláveis. Nós projetamos e implementamos a Engenharia Operacional do seu negócio.</p>
-              <p className="text-white/60 mb-10 text-lg leading-relaxed">
+              <p className="text-white mb-10 text-xl leading-relaxed font-normal">Para crescer de forma saudável, sua empresa precisa de processos escaláveis. Nós projetamos e implementamos a Engenharia Operacional do seu negócio.</p>
+              <p className="text-white/90 mb-10 text-lg leading-relaxed font-normal">
                 Nós integramos seus departamentos em um fluxo contínuo e inserimos camadas de Inteligência Artificial para atuar como "supervisores digitais".
               </p>
               
@@ -362,86 +366,79 @@ export default function Home() {
                   { title: "Visão Unificada", desc: "Conectamos as pontas soltas para que nenhuma informação importante se perca.", icon: <Gem className="h-6 w-6 text-primary" /> }
                 ].map((item, i) => (
                   <div key={i} className="flex gap-4 group">
-                    <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
+                    <div className="h-12 w-12 rounded-xl bg-primary/20 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/30 transition-colors shadow-lg">
                       {item.icon}
                     </div>
                     <div>
-                      <h4 className="text-xl font-bold mb-1">{item.title}</h4>
-                      <p className="text-white/50">{item.desc}</p>
+                      <h4 className="text-xl font-bold mb-1 text-white">{item.title}</h4>
+                      <p className="text-white/90 leading-relaxed font-normal">{item.desc}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </motion.div>
             
-            <motion.div variants={fadeInUp} className="lg:w-1/2 relative">
-              <div className="absolute -inset-10 bg-primary/20 blur-[120px] rounded-full opacity-50" />
-              <div className="relative bg-white/[0.02] border border-white/10 rounded-3xl p-8 md:p-12 backdrop-blur-3xl shadow-3xl">
-                <div className="flex flex-col gap-12">
+            <motion.div variants={fadeInUp} className="lg:w-1/2 relative z-10">
+              <div className="relative bg-white/[0.04] border border-white/20 rounded-3xl p-6 md:p-10 backdrop-blur-3xl shadow-3xl">
+                <div className="flex flex-col gap-10">
                   {/* Traditional Operation Side */}
-                  <div className="relative p-8 rounded-2xl bg-white/[0.02] border border-red-500/10 border-dashed group overflow-hidden">
-                    <div className="absolute top-0 right-0 p-3">
-                       <Badge variant="outline" className="text-[10px] border-red-500/20 text-red-500/50 uppercase tracking-tighter">Ineficiente</Badge>
+                  <div className="relative p-8 rounded-2xl bg-black/40 border border-red-500/40 border-dashed group overflow-hidden">
+                    <div className="absolute top-0 right-0 p-4">
+                       <Badge variant="outline" className="text-[10px] border-red-500/50 text-red-500 font-black uppercase tracking-wider bg-red-500/10">Ineficiente</Badge>
                     </div>
-                    <p className="text-sm font-mono text-white/20 mb-6 uppercase tracking-widest">Operação Tradicional</p>
+                    <p className="text-sm font-mono text-red-400 mb-6 uppercase tracking-widest font-black">Operação Tradicional</p>
                     
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 opacity-40 grayscale group-hover:grayscale-0 transition-all duration-700">
-                      <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
-                        <FileText className="h-4 w-4 text-red-400" />
-                        <span className="text-xs text-white/40">Planilhas Manuais</span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 opacity-100 transition-all duration-700">
+                      <div className="flex items-center gap-3 p-3 rounded-lg bg-black/60 border border-white/20">
+                        <FileText className="h-4 w-4 text-red-500" />
+                        <span className="text-xs text-white font-bold">Planilhas Manuais</span>
                       </div>
-                      <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
-                        <Clock className="h-4 w-4 text-red-400" />
-                        <span className="text-xs text-white/40">Gargalos de Espera</span>
+                      <div className="flex items-center gap-3 p-3 rounded-lg bg-black/60 border border-white/20">
+                        <Clock className="h-4 w-4 text-red-500" />
+                        <span className="text-xs text-white font-bold">Gargalos de Espera</span>
                       </div>
-                      <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
-                        <Users className="h-4 w-4 text-red-400" />
-                        <span className="text-xs text-white/40">Dependência Humana</span>
+                      <div className="flex items-center gap-3 p-3 rounded-lg bg-black/60 border border-white/20">
+                        <Users className="h-4 w-4 text-red-500" />
+                        <span className="text-xs text-white font-bold">Dependência Humana</span>
                       </div>
-                      <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
-                        <Database className="h-4 w-4 text-red-400" />
-                        <span className="text-xs text-white/40">Dados Desconexos</span>
+                      <div className="flex items-center gap-3 p-3 rounded-lg bg-black/60 border border-white/20">
+                        <Database className="h-4 w-4 text-red-500" />
+                        <span className="text-xs text-white font-bold">Dados Desconexos</span>
                       </div>
                     </div>
-                    
-                    {/* Visual noise/chaos elements */}
-                    <div className="absolute -bottom-2 -right-2 h-20 w-20 bg-red-500/5 blur-2xl rounded-full" />
                   </div>
                   
                   {/* Transition Arrow */}
-                  <div className="flex justify-center relative">
+                  <div className="flex justify-center relative py-2">
                     <div className="absolute inset-0 flex items-center justify-center">
-                       <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+                       <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
                     </div>
-                    <div className="relative h-12 w-12 rounded-full bg-primary flex items-center justify-center shadow-[0_0_30px_rgba(var(--primary),0.5)] z-10 animate-bounce">
-                      <ArrowRight className="h-6 w-6 text-white" />
+                    <div className="relative h-14 w-14 rounded-full bg-primary flex items-center justify-center shadow-[0_0_40px_rgba(var(--primary),0.8)] z-10 animate-pulse border-4 border-background">
+                      <ArrowRight className="h-7 w-7 text-white" />
                     </div>
                   </div>
 
                   {/* Buzzy Ecosystem Side */}
-                  <div className="relative p-8 rounded-2xl bg-primary/5 border border-primary/30 shadow-[0_0_50px_rgba(var(--primary),0.1)] group">
-                    <div className="absolute top-0 right-0 p-3">
-                       <Badge variant="outline" className="text-[10px] border-primary/40 text-primary uppercase tracking-tighter">Otimizado</Badge>
+                  <div className="relative p-8 rounded-2xl bg-primary/[0.2] border border-primary/60 shadow-[0_0_60px_rgba(var(--primary),0.4)] group">
+                    <div className="absolute top-0 right-0 p-4">
+                       <Badge variant="outline" className="text-[10px] border-primary/70 text-primary font-black uppercase tracking-wider bg-primary/30">Otimizado</Badge>
                     </div>
-                    <p className="text-sm font-mono text-primary/80 mb-6 uppercase tracking-widest font-bold">Ecossistema Buzzy</p>
+                    <p className="text-sm font-mono text-primary mb-6 uppercase tracking-widest font-black">Ecossistema Buzzy</p>
                     
                     <div className="flex flex-col sm:flex-row gap-6">
-                       <div className="flex-1 p-5 rounded-xl bg-background/60 border border-primary/20 flex flex-col items-center justify-center text-center group-hover:border-primary/50 transition-colors">
-                          <Zap className="h-8 w-8 text-primary mb-3 animate-pulse" />
-                          <span className="text-[10px] font-bold text-white/60 uppercase">Fluxos Autônomos</span>
+                       <div className="flex-1 p-5 rounded-xl bg-black/80 border border-primary/50 flex flex-col items-center justify-center text-center group-hover:border-primary/80 transition-colors shadow-2xl">
+                          <Zap className="h-8 w-8 text-primary mb-3" />
+                          <span className="text-[10px] font-black text-white uppercase tracking-widest leading-tight">Fluxos Autônomos</span>
                        </div>
-                       <div className="flex-1 p-5 rounded-xl bg-background/60 border border-primary/20 flex flex-col items-center justify-center text-center group-hover:border-primary/50 transition-colors">
+                       <div className="flex-1 p-5 rounded-xl bg-black/80 border border-primary/50 flex flex-col items-center justify-center text-center group-hover:border-primary/80 transition-colors shadow-2xl">
                           <Network className="h-8 w-8 text-primary mb-3" />
-                          <span className="text-[10px] font-bold text-white/60 uppercase">Integração Total</span>
+                          <span className="text-[10px] font-black text-white uppercase tracking-widest leading-tight">Integração Total</span>
                        </div>
-                       <div className="flex-1 p-5 rounded-xl bg-background/60 border border-primary/20 flex flex-col items-center justify-center text-center group-hover:border-primary/50 transition-colors">
+                       <div className="flex-1 p-5 rounded-xl bg-black/80 border border-primary/50 flex flex-col items-center justify-center text-center group-hover:border-primary/80 transition-colors shadow-2xl">
                           <LayoutDashboard className="h-8 w-8 text-primary mb-3" />
-                          <span className="text-[10px] font-bold text-white/60 uppercase">Gestão em Tempo Real</span>
+                          <span className="text-[10px] font-black text-white uppercase tracking-widest leading-tight">Gestão em Tempo Real</span>
                        </div>
                     </div>
-                    
-                    {/* Glow effect */}
-                    <div className="absolute -inset-1 bg-primary/10 blur-xl rounded-2xl -z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                 </div>
               </div>
@@ -450,47 +447,58 @@ export default function Home() {
         </div>
       </section>
       {/* Process Section */}
-      <section id="process" className="py-32 bg-white/[0.01]">
+      <section id="process" className="py-32 bg-background relative overflow-hidden">
+        {/* Background Decorative Blurs */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-primary/5 blur-[120px] rounded-full -z-10" />
+
         <div className="container mx-auto px-4">
-          <div className="text-center mb-24">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Do Diagnóstico à Autonomia: Como trabalhamos</h2>
-            <p className="text-xl text-white/40">Segurança e organização em cada etapa da jornada.</p>
-          </div>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+            className="bg-white/[0.03] border border-white/10 rounded-[3rem] p-10 md:p-20 backdrop-blur-2xl shadow-3xl"
+          >
+            <div className="text-center mb-24 relative z-10">
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight text-white leading-tight">Do Diagnóstico à Autonomia:<br className="hidden md:block" /> Como trabalhamos</h2>
+              <p className="text-xl text-white/90 max-w-2xl mx-auto font-normal">Segurança e organização em cada etapa da jornada.</p>
+            </div>
 
-          <div className="grid md:grid-cols-4 gap-12 relative">
-            <div className="hidden md:block absolute top-[48px] left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-white/10 to-transparent -z-10" />
+            <div className="grid md:grid-cols-4 gap-12 relative z-10">
+              <div className="hidden md:block absolute top-[48px] left-0 w-full h-[1px] bg-white/20 -z-10" />
 
-            {[
-              { title: "Mapeamento", desc: "Entendemos suas dores, mapeamos seus processos atuais e identificamos gargalos.", icon: "01" },
-              { title: "Arquitetura & Validação", desc: "Desenhamos a solução ideal. Você aprova o projeto antes de escrevermos uma linha de código.", icon: "02" },
-              { title: "Implementação", desc: "Construímos e integramos seus sistemas. Realizamos testes de estresse para garantir estabilidade.", icon: "03" },
-              { title: "Monitoramento & Evolução", desc: "Sua operação não para. Nós monitoramos os sistemas, corrigimos falhas e otimizamos fluxos continuamente.", icon: "04" }
-            ].map((step, i) => (
-              <motion.div 
-                key={i}
-                custom={i}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={stepAnimation}
-                className="flex flex-col items-center text-center group" 
-                data-testid={`step-process-${i}`}
-              >
-                <div className="h-24 w-24 rounded-3xl bg-card border-2 border-white/10 flex items-center justify-center mb-8 relative group-hover:border-primary/50 group-hover:-translate-y-2 transition-all duration-500 shadow-2xl">
-                  <div className="absolute inset-0 bg-primary/5 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <span className="text-2xl font-black font-mono text-primary relative z-10">
-                    {step.icon}
-                  </span>
-                </div>
-                <h3 className="text-2xl font-bold mb-4">{step.title}</h3>
-                <p className="text-white/40 leading-relaxed">{step.desc}</p>
-              </motion.div>
-            ))}
-          </div>
+              {[
+                { title: "Mapeamento", desc: "Entendemos suas dores, mapeamos seus processos atuais e identificamos gargalos.", icon: "01" },
+                { title: "Arquitetura & Validação", desc: "Desenhamos a solução ideal. Você aprova o projeto antes de implementarmos a solução.", icon: "02" },
+                { title: "Implementação", desc: "Construímos e integramos seus sistemas. Realizamos testes rigorosos para garantir estabilidade.", icon: "03" },
+                { title: "Monitoramento & Evolução", desc: "Sua operação não para. Nós monitoramos os sistemas e otimizamos fluxos continuamente.", icon: "04" }
+              ].map((step, i) => (
+                <motion.div 
+                  key={i}
+                  custom={i}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={stepAnimation}
+                  className="flex flex-col items-center text-center group" 
+                  data-testid={`step-process-${i}`}
+                >
+                  <div className="h-24 w-24 rounded-3xl bg-black/40 border-2 border-white/20 flex items-center justify-center mb-8 relative group-hover:border-primary group-hover:bg-primary/20 transition-all duration-500 shadow-2xl">
+                    <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <span className="text-3xl font-black font-mono text-primary relative z-10">
+                      {step.icon}
+                    </span>
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 tracking-tight text-white">{step.title}</h3>
+                  <p className="text-white/90 leading-relaxed font-normal">{step.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </section>
       {/* Feature Highlights Section */}
-      <section id="features" className="py-32 bg-black/40">
+      <section id="features" className="py-32 bg-black/80">
         <div className="container mx-auto px-4">
           <motion.div
             initial="hidden"
@@ -499,8 +507,8 @@ export default function Home() {
             variants={fadeInUp}
             className="text-center mb-20"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Recursos de Alta Performance</h2>
-            <p className="text-xl text-white/40 max-w-2xl mx-auto">Tecnologia de ponta integrada para transformar sua operação em uma máquina de escala.</p>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">Recursos de Alta Performance</h2>
+            <p className="text-xl text-white/90 max-w-2xl mx-auto font-normal">Tecnologia de ponta integrada para transformar sua operação em uma máquina de escala.</p>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -548,16 +556,16 @@ export default function Home() {
                 whileInView="visible"
                 viewport={{ once: true }}
                 variants={fadeInUp}
-                className="group p-8 rounded-3xl bg-white/[0.02] border border-white/5 hover:border-primary/30 transition-all duration-500"
+                className="group p-8 rounded-3xl bg-white/[0.06] border border-white/20 hover:border-primary/60 transition-all duration-500 backdrop-blur-md"
               >
                 <div className="flex justify-between items-start mb-6">
-                  <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <div className="h-12 w-12 rounded-xl bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-primary/10">
                     {feature.icon}
                   </div>
-                  <Badge variant="outline" className="border-primary/20 text-primary/70">{feature.tag}</Badge>
+                  <Badge variant="outline" className="border-primary/50 text-primary font-black tracking-tight bg-primary/10">{feature.tag}</Badge>
                 </div>
-                <h3 className="text-2xl font-bold mb-4">{feature.title}</h3>
-                <p className="text-white/40 leading-relaxed">{feature.desc}</p>
+                <h3 className="text-2xl font-bold mb-4 tracking-tight">{feature.title}</h3>
+                <p className="text-white/90 leading-relaxed font-normal">{feature.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -574,8 +582,8 @@ export default function Home() {
             variants={fadeInUp}
             className="text-center mb-20"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Investimento Estratégico</h2>
-            <p className="text-xl text-white/40">Planos flexíveis para diferentes estágios de crescimento.</p>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">Investimento Estratégico</h2>
+            <p className="text-xl text-white/90 font-normal">Planos flexíveis para diferentes estágios de crescimento.</p>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -611,32 +619,32 @@ export default function Home() {
                 whileInView="visible"
                 viewport={{ once: true }}
                 variants={fadeInUp}
-                className={`p-10 rounded-[2.5rem] flex flex-col h-full border transition-all duration-500 ${
+                className={`p-10 rounded-[2.5rem] flex flex-col h-full border transition-all duration-500 backdrop-blur-md ${
                   plan.highlight 
-                  ? 'bg-primary/5 border-primary/40 shadow-2xl shadow-primary/10 scale-105 z-10' 
-                  : 'bg-white/[0.02] border-white/5'
+                  ? 'bg-primary/[0.12] border-primary/50 shadow-2xl shadow-primary/30 scale-105 z-10' 
+                  : 'bg-white/[0.06] border-white/20'
                 }`}
               >
-                <div className="mb-8">
-                  <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
-                  <p className="text-white/40 text-sm h-12">{plan.desc}</p>
+                <div className="mb-8 text-left">
+                  <h3 className="text-2xl font-bold mb-2 tracking-tight">{plan.name}</h3>
+                  <p className="text-white/80 text-sm h-12 leading-relaxed font-normal">{plan.desc}</p>
                 </div>
-                <div className="mb-10">
-                  <span className="text-4xl font-bold">{plan.price}</span>
+                <div className="mb-10 text-left">
+                  <span className="text-4xl font-black tracking-tight text-white">{plan.price}</span>
                 </div>
-                <ul className="space-y-4 mb-12 flex-1">
+                <ul className="space-y-4 mb-12 flex-1 text-left">
                   {plan.features.map((feat, j) => (
-                    <li key={j} className="flex items-center gap-3 text-white/60">
+                    <li key={j} className="flex items-center gap-3 text-white">
                       <CheckCircle2 className="h-5 w-5 text-primary flex-shrink-0" />
-                      <span>{feat}</span>
+                      <span className="text-sm font-bold tracking-tight">{feat}</span>
                     </li>
                   ))}
                 </ul>
                 <Button 
-                  className={`w-full h-14 font-bold text-lg rounded-xl ${
+                  className={`w-full h-14 font-black text-lg rounded-xl transition-transform active:scale-95 ${
                     plan.highlight 
-                    ? 'bg-primary hover:bg-primary/90 text-white' 
-                    : 'bg-white/5 hover:bg-white/10 text-white'
+                    ? 'bg-primary hover:bg-primary/90 text-white shadow-xl shadow-primary/30' 
+                    : 'bg-white/10 hover:bg-white/20 text-white'
                   }`}
                 >
                   {plan.cta}
@@ -663,7 +671,7 @@ export default function Home() {
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="py-32 bg-white/[0.02]">
+      <section id="faq" className="py-32 bg-white/[0.04]">
         <div className="container mx-auto px-4 max-w-6xl">
           <motion.div
             initial="hidden"
@@ -671,22 +679,22 @@ export default function Home() {
             viewport={{ once: true }}
             variants={fadeInUp}
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-20 text-center">Perguntas Frequentes</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-20 text-center tracking-tight">Perguntas Frequentes</h2>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
               {/* FAQ Questions List */}
-              <div className="space-y-2">
+              <div className="space-y-3">
                 {faqs.map((faq, i) => (
                   <button
                     key={i}
                     onClick={() => setActiveFaq(i)}
-                    className={`w-full text-left p-6 rounded-2xl transition-all duration-300 border ${
+                    className={`w-full text-left p-6 rounded-2xl transition-all duration-300 border backdrop-blur-md ${
                       activeFaq === i 
-                      ? 'bg-white/5 border-primary/30 text-white shadow-lg' 
-                      : 'bg-transparent border-transparent text-white/40 hover:text-white/70'
+                      ? 'bg-primary/20 border-primary/50 text-white shadow-2xl translate-x-2' 
+                      : 'bg-white/5 border-white/20 text-white/90 hover:text-white hover:bg-white/15'
                     }`}
                   >
-                    <span className="text-xl font-bold leading-tight block">
+                    <span className="text-xl font-bold leading-tight block tracking-tight">
                       {faq.q}
                     </span>
                   </button>
@@ -698,26 +706,26 @@ export default function Home() {
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeFaq}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    transition={{ duration: 0.3 }}
-                    className="bg-white/[0.03] border border-white/10 rounded-[2.5rem] p-12 md:p-16 relative overflow-hidden min-h-[450px] flex flex-col justify-center"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                    className="bg-white/[0.08] border border-white/20 rounded-[2.5rem] p-12 md:p-16 relative overflow-hidden min-h-[450px] flex flex-col justify-center shadow-2xl backdrop-blur-xl"
                   >
-                    {/* Decorative Corner Brackets from reference image */}
-                    <div className="absolute top-8 left-8 w-4 h-4 border-t-2 border-l-2 border-white/20" />
-                    <div className="absolute top-8 right-8 w-4 h-4 border-t-2 border-r-2 border-white/20" />
-                    <div className="absolute bottom-8 left-8 w-4 h-4 border-b-2 border-l-2 border-white/20" />
-                    <div className="absolute bottom-8 right-8 w-4 h-4 border-b-2 border-r-2 border-white/20" />
+                    {/* Decorative Corner Brackets */}
+                    <div className="absolute top-10 left-10 w-8 h-8 border-t-2 border-l-2 border-primary/50" />
+                    <div className="absolute top-10 right-10 w-8 h-8 border-t-2 border-r-2 border-primary/50" />
+                    <div className="absolute bottom-10 left-10 w-8 h-8 border-b-2 border-l-2 border-primary/50" />
+                    <div className="absolute bottom-10 right-10 w-8 h-8 border-b-2 border-r-2 border-primary/50" />
 
                     <div className="relative">
                       {/* Floating glass card for answer text */}
-                      <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-10 md:p-12 rounded-2xl relative z-10 shadow-2xl">
-                        <p className="text-xl md:text-2xl text-white/80 leading-relaxed font-medium">
+                      <div className="bg-primary/10 border border-primary/40 p-10 md:p-12 rounded-3xl relative z-10 shadow-2xl overflow-hidden backdrop-blur-md">
+                        <div className="absolute -top-20 -left-20 w-40 h-40 bg-primary/30 blur-[60px] rounded-full" />
+                        <p className="text-xl md:text-2xl text-white font-bold leading-relaxed tracking-tight relative z-20">
                           {faqs[activeFaq].a}
                         </p>
                       </div>
-                      <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-primary/20 blur-[100px] rounded-full" />
                     </div>
                   </motion.div>
                 </AnimatePresence>
@@ -727,11 +735,11 @@ export default function Home() {
         </div>
       </section>
       {/* Final CTA */}
-      <section className="py-40 relative overflow-hidden">
+      <section className="py-40 relative overflow-hidden bg-black/40">
         {/* Decorative elements for the background */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 blur-[120px] rounded-full -z-10" />
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/10 blur-[150px] rounded-full -z-10" />
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
         <div className="container mx-auto px-4">
           <motion.div 
@@ -741,7 +749,7 @@ export default function Home() {
             variants={fadeInUp}
             className="max-w-4xl mx-auto text-center"
           >
-             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/60 text-sm font-medium mb-12 backdrop-blur-sm">
+             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-white/90 text-sm font-bold mb-12 backdrop-blur-md">
                <Zap className="h-4 w-4 text-primary animate-pulse" />
                Pronto para o próximo nível?
              </div>
@@ -751,7 +759,7 @@ export default function Home() {
                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary/80 to-primary/40">gastando menos energia.</span>
              </h2>
 
-             <p className="text-xl md:text-2xl text-white/50 mb-16 max-w-3xl mx-auto leading-relaxed">
+             <p className="text-xl md:text-2xl text-white/90 mb-16 max-w-3xl mx-auto leading-relaxed font-normal">
                Pare de desperdiçar o ativo mais valioso do seu negócio: o tempo. Vamos desenhar juntos sua nova estrutura operacional.
              </p>
 
@@ -759,7 +767,7 @@ export default function Home() {
                <DiagnosticDialog>
                  <Button 
                    size="lg" 
-                   className="h-20 px-12 text-xl font-bold rounded-2xl bg-primary hover:bg-primary/90 shadow-[0_0_40px_rgba(5,56,69,0.3)] transition-all hover:scale-105 active:scale-95 group text-[#ffffff]"
+                   className="h-20 px-12 text-xl font-black rounded-2xl bg-primary hover:bg-primary/90 shadow-[0_0_60px_rgba(var(--primary),0.6)] transition-all hover:scale-105 active:scale-95 group text-[#ffffff]"
                  >
                    Agendar Consultoria de Diagnóstico
                    <ArrowRight className="ml-2 h-6 w-6 group-hover:translate-x-1 transition-transform" />
@@ -770,27 +778,27 @@ export default function Home() {
         </div>
       </section>
       {/* Footer */}
-      <footer className="py-24 border-t border-white/5 bg-black/20">
+      <footer className="py-24 border-t border-white/20 bg-black/80">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start mb-24">
             <div className="max-w-md text-left">
               <div className="flex items-center gap-3 mb-8">
-                <img src={logoImage} alt="Buzzy Labs" className="h-10 w-10 rounded-full" />
+                <img src={logoImage} alt="Buzzy Labs" className="h-10 w-10 rounded-full border border-primary/40 shadow-xl shadow-primary/20" />
                 <span className="font-bold text-2xl tracking-tight">Buzzy Labs</span>
               </div>
-              <p className="text-white/40 text-lg mb-8 leading-relaxed">
+              <p className="text-white/90 text-lg mb-8 leading-relaxed font-normal">
                 Inteligência e Estratégia de Negócios para empresas que buscam escala real através da engenharia e automação.
               </p>
-              <div className="flex gap-8 text-sm font-bold text-white/60">
-                <a href="#" className="hover:text-primary transition-colors">LinkedIn</a>
-                <a href="#" className="hover:text-primary transition-colors">Email</a>
-                <a href="#" className="hover:text-primary transition-colors">Contato</a>
+              <div className="flex gap-8 text-sm font-black text-white/60 tracking-widest">
+                <a href="#" className="hover:text-primary transition-colors uppercase">LinkedIn</a>
+                <a href="#" className="hover:text-primary transition-colors uppercase">Email</a>
+                <a href="#" className="hover:text-primary transition-colors uppercase">Contato</a>
               </div>
             </div>
 
-            <div className="bg-white/[0.03] border border-white/5 rounded-3xl p-10 backdrop-blur-sm text-left">
-              <h3 className="text-xl font-bold mb-4">Newsletter Estratégica</h3>
-              <p className="text-white/40 mb-8 text-sm">Receba insights sobre automação e IA diretamente no seu e-mail corporativo.</p>
+            <div className="bg-white/[0.08] border border-white/20 rounded-3xl p-10 backdrop-blur-md text-left shadow-2xl">
+              <h3 className="text-xl font-black mb-4 tracking-tight">Newsletter Estratégica</h3>
+              <p className="text-white/90 mb-8 text-sm font-normal leading-relaxed">Receba insights sobre automação e IA diretamente no seu e-mail corporativo.</p>
               <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-3">
                 <Input 
                   placeholder="Seu melhor e-mail" 
@@ -798,12 +806,12 @@ export default function Home() {
                   required
                   value={newsletterEmail}
                   onChange={(e) => setNewsletterEmail(e.target.value)}
-                  className="h-12 bg-white/5 border-white/10 rounded-xl focus-visible:ring-primary/40"
+                  className="h-12 bg-white/10 border-white/20 rounded-xl focus-visible:ring-primary/60 text-white placeholder:text-white/40"
                 />
                 <Button 
                   type="submit" 
                   disabled={newsletterLoading}
-                  className="h-12 px-8 bg-white text-black hover:bg-white/90 font-bold rounded-xl whitespace-nowrap"
+                  className="h-12 px-8 bg-white text-black hover:bg-white/90 font-black rounded-xl whitespace-nowrap shadow-2xl"
                 >
                   {newsletterLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Inscrever-se"}
                 </Button>
@@ -811,11 +819,11 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
-            <div className="text-xs text-white/20 uppercase tracking-[0.3em]">
+          <div className="pt-12 border-t border-white/20 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div className="text-xs text-white/50 uppercase tracking-[0.4em] font-black">
               © 2024 Buzzy Labs. Built for Scale.
             </div>
-            <div className="flex gap-8 text-xs text-white/20 uppercase tracking-[0.2em]">
+            <div className="flex gap-8 text-xs text-white/50 uppercase tracking-[0.3em] font-black">
               <a href="#" className="hover:text-white transition-colors">Política de Privacidade</a>
               <a href="#" className="hover:text-white transition-colors">Termos de Uso</a>
             </div>
